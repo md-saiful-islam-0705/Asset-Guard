@@ -1,6 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../Layout/Main";
 import Home from "../pages/Home/Home/Home";
+import Login from "../pages/Login/Login";
+import SignUp from "../pages/SignUp/SignUp";
+import Profile from "../pages/Profile/Profile";
+import JoinEmployee from "../pages/JoinEmployee/JoinEmployee";
+import JoinHRManager from "../pages/JoinHR/JoinHRManager";
+import EmployeeHome from "../pages/DashBoard/Employee/EmployeeHome";
+import Dashboard from "../Layout/DashBoard";
+import PrivateRoute from '../Routes/PrivateRoute'
+
+
 
 export const router = createBrowserRouter([
   {
@@ -11,6 +21,40 @@ export const router = createBrowserRouter([
         path: "/",
         element: <Home></Home>,
       },
+      {
+        path: 'join-employee',
+        element: <JoinEmployee></JoinEmployee>,
+      },
+      {
+        path: "join-hr",
+        element: <JoinHRManager></JoinHRManager>,
+      },
+      
+      {
+        path: 'profile',
+        element: <PrivateRoute><Profile></Profile></PrivateRoute>
+      },
+      {
+        path: 'login',
+        element: <Login></Login>
+      },
+      {
+        path: 'signup',
+        element: <SignUp></SignUp>
+      },
+      
+      
     ],
   },
+  {
+    path: "dashboard",
+    element: <PrivateRoute><Dashboard></Dashboard> </PrivateRoute>,
+    children: [
+        {
+            path: 'employee-home',
+            element: <EmployeeHome></EmployeeHome>
+        },
+    ]
+  },
+  
 ]);
