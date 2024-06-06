@@ -9,6 +9,8 @@ import JoinHRManager from "../pages/JoinHR/JoinHRManager";
 import EmployeeHome from "../pages/DashBoard/Employee/EmployeeHome";
 import Dashboard from "../Layout/DashBoard";
 import PrivateRoute from '../Routes/PrivateRoute'
+import AddEmployee from "../pages/DashBoard/HRManager/AddEmployee";
+import AddAseet from "../pages/DashBoard/HRManager/AddAseet";
 
 
 
@@ -53,6 +55,14 @@ export const router = createBrowserRouter([
         {
             path: 'employee-home',
             element: <EmployeeHome></EmployeeHome>
+        },
+        {
+            path: 'add-employee',
+            element: <AddEmployee></AddEmployee>
+        },
+        {
+            path: 'add-asset',
+            element: <AddAseet></AddAseet>
         },
     ]
   },
