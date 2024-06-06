@@ -11,6 +11,7 @@ import Dashboard from "../Layout/DashBoard";
 import PrivateRoute from '../Routes/PrivateRoute'
 import AddEmployee from "../pages/DashBoard/HRManager/AddEmployee";
 import AddAseet from "../pages/DashBoard/HRManager/AddAseet";
+import MyEmployeeList from "../pages/DashBoard/HRManager/MyEmployeeList";
 
 
 
@@ -63,6 +64,10 @@ export const router = createBrowserRouter([
         {
             path: 'add-asset',
             element: <AddAseet></AddAseet>
+        },
+        {
+            path: 'employee-list',
+            element: <MyEmployeeList></MyEmployeeList>
         },
     ]
   },

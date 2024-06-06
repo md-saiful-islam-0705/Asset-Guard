@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import useHR from "../../../hooks/useHR";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
@@ -9,12 +8,11 @@ const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_ke
 
 const AddAsset = () => {
   const { register, handleSubmit, reset } = useForm();
-  const { hrData } = useHR();
+  
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
 
   const onSubmit = async (data) => {
-    try {
       const imageFile = { image: data.image[0] };
       const res = await axiosPublic.post(image_hosting_api, imageFile, {
         headers: {
@@ -31,6 +29,7 @@ const AddAsset = () => {
         };
 
         const assetRes = await axiosSecure.post("/assets", assetData);
+        console.log(assetRes.data)
 
         if (assetRes.data.insertedId) {
           reset();
@@ -43,17 +42,13 @@ const AddAsset = () => {
           });
         }
       }
-    } catch (error) {
-      console.error("Error adding asset:", error);
-    }
+    
   };
 
-  if (!hrData) {
-    return <div>You are not authorized to access this page.</div>; // Return a message if the user is not an HR Manager
-  }
+  
 
   return (
-    <div className="container mx-auto p-8 border-2 border-purple-100 rounded-xl my-10">
+    <div className="container mx-auto p-8 border-2 border-gray-400 rounded-xl my-10">
         <p className="font-bold text-center  text-gray-600 text-2xl">Add Asset</p>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-control w-full my-6">
