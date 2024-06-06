@@ -12,12 +12,14 @@ const SocialLogin = () => {
     googleSignIn().then((result) => {
       const userInfo = {
         email: result.user?.email,
-        name: result.user?.displayName,
+        displayName: result.user?.displayName,
+        photoURL: result.user?.photoURL,
         role: "employee",
         socialProvider: "Google",
       };
+      console.log("User Info:", userInfo);
       axiosPublic.post("/register", userInfo).then((res) => {
-        console.log(res.data);
+        console.log('check',res.data);
         navigate("/");
       });
     });

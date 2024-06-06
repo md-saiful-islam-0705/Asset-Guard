@@ -14,7 +14,7 @@ const HRManagerJoinForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const { email, password, fullName, dateOfBirth, photoURL, role, companyName, companyLogo, selectedPackage } = data;
+      const { email, password, displayName, dateOfBirth, photoURL, role, companyName, companyLogo, selectedPackage } = data;
 
       // Create user in Firebase authentication
       const userCredential = await createUser(email, password);
@@ -22,11 +22,11 @@ const HRManagerJoinForm = () => {
       console.log(user);
 
       // Update user profile
-      await updateUserProfile(fullName, photoURL);
+      await updateUserProfile(displayName, photoURL);
 
       // Construct userInfo object for API call
       const userInfo = {
-        fullName,
+        displayName,
         email,
         password,
         dateOfBirth,
@@ -83,10 +83,10 @@ const HRManagerJoinForm = () => {
                   </label>
                   <input
                     type="text"
-                    name="fullName"
+                    name="displayName"
                     placeholder="Full Name"
                     className="input input-bordered"
-                    {...register("fullName", { required: true })}
+                    {...register("displayName", { required: true })}
                     required
                   />
                 </div>

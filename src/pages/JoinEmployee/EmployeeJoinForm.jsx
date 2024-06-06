@@ -15,19 +15,20 @@ const EmployeeJoinForm = () => {
 
     const onSubmit = async (data) => {
         try {
-            const { email, password, fullName, dateOfBirth, photoURL, role } = data;
+            const { email, password, displayName, dateOfBirth, photoURL, role } = data;
 
             const userCredential = await createUser(email, password);
             const user = userCredential.user;
             console.log(user)
 
-            await updateUserProfile(fullName, photoURL);
+            await updateUserProfile(displayName, photoURL);
 
             const userInfo = {
-                fullName,
+                displayName,
                 email,
                 dateOfBirth,
                 photoURL,
+                password,
                 role
             };
 
@@ -87,11 +88,11 @@ const EmployeeJoinForm = () => {
                                     <input
                                         type="text"
                                         placeholder="Full Name"
-                                        {...register('fullName', { required: true })}
+                                        {...register('displayName', { required: true })}
                                         className="input input-bordered"
                                         required
                                     />
-                                    {errors.fullName && <span className="text-red-600">Full Name is required</span>}
+                                    {errors.displayName && <span className="text-red-600">Full Name is required</span>}
                                 </div>
                                 <div className="form-control">
                                     <label className="label">

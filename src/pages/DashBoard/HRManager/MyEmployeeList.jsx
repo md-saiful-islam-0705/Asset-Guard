@@ -48,14 +48,14 @@ const MyEmployeeList = () => {
                     <div className="mask mask-squircle w-12 h-12">
                       <img
                         src={member.photoURL}
-                        alt={`${member.fullName}'s profile`}
+                        alt={`${member.displayName}'s profile`}
                       />
                     </div>
                   </div>
                 </div>
               </td>
               <td>
-                <div className="font-bold">{member.fullName}</div>
+                <div className="font-bold">{member.displayName}</div>
               </td>
 
               <td
