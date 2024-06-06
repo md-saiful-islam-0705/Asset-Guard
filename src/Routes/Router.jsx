@@ -9,9 +9,10 @@ import JoinHRManager from "../pages/JoinHR/JoinHRManager";
 import EmployeeHome from "../pages/DashBoard/Employee/EmployeeHome";
 import Dashboard from "../Layout/DashBoard";
 import PrivateRoute from '../Routes/PrivateRoute'
-import AddEmployee from "../pages/DashBoard/HRManager/AddEmployee";
+import AddEmployee from "../pages/DashBoard/HRManager/AddEmployee/AddEmployee";
 import AddAseet from "../pages/DashBoard/HRManager/AddAseet";
 import MyEmployeeList from "../pages/DashBoard/HRManager/MyEmployeeList";
+import AssetList from '../pages/DashBoard/HRManager/AssetList'
 
 
 
@@ -68,6 +69,10 @@ export const router = createBrowserRouter([
         {
             path: 'employee-list',
             element: <MyEmployeeList></MyEmployeeList>
+        },
+        {
+            path: 'asset-list',
+            element: <AssetList></AssetList>
         },
     ]
   },

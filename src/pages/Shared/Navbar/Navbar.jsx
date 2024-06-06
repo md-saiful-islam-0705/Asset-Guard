@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../../../../public/asset-logo.png";
+import logo from "../../../assets/logo/asset-logo.png";
 import { useContext, useState, useEffect, useRef } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import { FaBars } from "react-icons/fa";
@@ -53,7 +53,7 @@ const Navbar = () => {
                 <li>
                   <Link to="/profile">Profile</Link>
                 </li>
-                <li onClick={handleLogOut}>Log Out</li>
+                <li onClick={handleLogOut} className="text-red-500">Log Out</li>
               </>
             ) : (
               <>
@@ -94,7 +94,10 @@ const Navbar = () => {
                     <li>
                       <Link to="/profile">Profile</Link>
                     </li>
-                    <li onClick={handleLogOut}>Log Out</li>
+                    <li onClick={handleLogOut} className="text-red-500 ">
+                      <Link to="">Log Out</Link>
+                    </li>
+                    
                   </ul>
                 )}
               </li>

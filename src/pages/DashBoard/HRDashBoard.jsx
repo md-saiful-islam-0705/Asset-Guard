@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useState } from "react";
-import defaultCompanyLogo from "../../../public/logo-01.avif";
+import defaultCompanyLogo from "../../assets/logo/logo-01.avif";
 import {
   FaHome,
   FaBox,

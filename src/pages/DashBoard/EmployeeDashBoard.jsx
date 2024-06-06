@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import {  NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
-import defaultCompanyLogo from "../../../public/logo-01.avif";
+import defaultCompanyLogo from "../../assets/logo/logo-01.avif";
 import {
   FaArrowRight,
   FaOpencart,

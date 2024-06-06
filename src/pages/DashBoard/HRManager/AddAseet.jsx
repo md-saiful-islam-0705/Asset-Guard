@@ -21,11 +21,13 @@ const AddAsset = () => {
       });
 
       if (res.data.success) {
+        const currentDate = new Date().toISOString();
         const assetData = {
           name: data.name,
           type: data.type,
           quantity: parseInt(data.quantity),
           image: res.data.data.display_url,
+          createdAt: currentDate,
         };
 
         const assetRes = await axiosSecure.post("/assets", assetData);
