@@ -10,6 +10,7 @@ const Profile = () => {
         const value = event.target.value;
         setFullName(value);
     };
+    console.log(user)
 
     const handleUpdateProfile = () => {
         updateUserProfile(fullName, user.photoURL)

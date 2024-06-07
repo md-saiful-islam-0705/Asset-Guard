@@ -13,6 +13,7 @@ import AddEmployee from "../pages/DashBoard/HRManager/AddEmployee/AddEmployee";
 import AddAseet from "../pages/DashBoard/HRManager/AddAseet";
 import MyEmployeeList from "../pages/DashBoard/HRManager/MyEmployeeList";
 import AssetList from '../pages/DashBoard/HRManager/AssetList'
+import RequestAsset from "../pages/DashBoard/Employee/AssetRequest";
 
 
 
@@ -73,6 +74,10 @@ export const router = createBrowserRouter([
         {
             path: 'asset-list',
             element: <AssetList></AssetList>
+        },
+        {
+            path: 'request-asset',
+            element: <RequestAsset></RequestAsset>
         },
     ]
   },

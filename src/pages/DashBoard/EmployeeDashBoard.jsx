@@ -68,7 +68,7 @@ const EmployeeDashboard = () => {
           </li>
           <li>
             <NavLink
-              to="/my-team"
+              to="/dashboard/my-team"
               className={({ isActive }) =>
                 isActive
                   ? "flex items-center py-2 border-2 border-blue-500 rounded px-2 text-blue-500"
@@ -82,7 +82,7 @@ const EmployeeDashboard = () => {
           </li>
           <li>
             <NavLink
-              to="/request-asset"
+              to="/dashboard/request-asset"
               className={({ isActive }) =>
                 isActive
                   ? "flex items-center py-2 border-2 border-blue-500 rounded px-2 text-blue-500"
@@ -96,7 +96,7 @@ const EmployeeDashboard = () => {
           </li>
           <li>
             <NavLink
-              to="/profile"
+              to="/dashboard/profile"
               className={({ isActive }) =>
                 isActive
                   ? "flex items-center py-2 border-2 border-blue-500 rounded px-2 text-blue-500"
