@@ -112,7 +112,7 @@ const RequestAsset = () => {
         </div>
       </div>
       <div className="h-[700px] mt-10 overflow-y-auto">
-        <table className="h-full w-full text-left">
+        <table className="h-full w-full text-left border">
           <thead>
             <tr>
               <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
@@ -156,18 +156,18 @@ const RequestAsset = () => {
           <tbody>
             {currentItems.map((asset) => (
               <tr key={asset._id}>
-                <td className="p-4 border-b border-blue-gray-50">
+                <td className="p-2 border-b border-blue-gray-50 font-semibold text-gray-700">
                   {asset.name}
                 </td>
-                <td className="p-4 border-b border-blue-gray-50">
+                <td className={`p-2 border-b border-blue-gray-50 ${asset.type === 'Refundable' ? 'text-blue-300' : 'text-orange-300'}`}>
                   {asset.type}
                 </td>
-                <td className="p-4 border-b border-blue-gray-50">
+                <td className={`p-2 border-b border-blue-gray-50 ${asset.quantity > 0 ? 'text-green-300' : 'text-red-500'}`}>
                   {asset.quantity > 0 ? "Available" : "Out of Stock"}
                 </td>
-                <td className="p-4 border-b border-blue-gray-50">
+                <td className="p-2 border-b ">
                   <button
-                    className="btn"
+                    className="btn btn-outline border-gray-300"
                     onClick={() => handleOpenModal(asset)}
                     disabled={asset.quantity === 0}
                   >

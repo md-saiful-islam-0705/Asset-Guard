@@ -27,7 +27,7 @@ const AssetList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [editingAsset, setEditingAsset] = useState(null);
-  const [sortOrder, setSortOrder] = useState("asc"); // New state for sort order
+  const [sortOrder, setSortOrder] = useState("asc"); 
   const axiosSecure = useAxiosSecure();
 
   useEffect(() => {

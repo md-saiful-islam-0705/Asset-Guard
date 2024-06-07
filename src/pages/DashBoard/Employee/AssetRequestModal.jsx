@@ -30,6 +30,7 @@ const AssetRequestModal = ({ selectedAsset }) => {
     const requestData = {
       assetId: selectedAsset._id,
       assetName: selectedAsset.name,
+      assetType: selectedAsset.type,
       additionalNotes,
       user: {
         userEmail: user.email,
@@ -70,14 +71,20 @@ const AssetRequestModal = ({ selectedAsset }) => {
         </form>
         {selectedAsset ? (
           <>
-            <h3 className="font-bold text-lg my-2">Request Asset</h3>
-            <div className="flex items-center justify-between px-5">
-              <p className="p-2 font-semibold text-gray-700">Asset</p>
-              <span className="p-2 font-semibold text-gray-500">{selectedAsset.name}</span>
+            <h3 className="font-bold text-lg my-2 text-center">Request Asset</h3>
+            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-start px-5">
+              <p className="py-2 font-semibold text-gray-700"></p>
+              <span className="py-2 font-semibold text-gray-500">{selectedAsset.name}</span>
+            </div>
+            <div className="flex items-center justify-start px-5">
+              <p className="py-2 font-semibold text-gray-700"></p>
+              <span className="font-semibold text-blue-500">{selectedAsset.type}</span>
+            </div>
             </div>
             <textarea
-              className="textarea w-full mb-4 border"
-              placeholder="Additional Notes"
+              className="textarea w-full mb-4 border border-blue-100"
+              placeholder="Additional Notes..."
               value={additionalNotes}
               onChange={(e) => setAdditionalNotes(e.target.value)}
             ></textarea>
