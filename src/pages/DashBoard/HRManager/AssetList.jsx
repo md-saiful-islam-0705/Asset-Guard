@@ -22,12 +22,13 @@ import EditAssetModal from "./EditAssetModal";
 const AssetList = () => {
   const [assets, setAssets] = useState([]);
   const [filterStatus, setFilterStatus] = useState("all");
+  const [filterType, setFilterType] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [editingAsset, setEditingAsset] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc"); // New state for sort order
   const axiosSecure = useAxiosSecure();
-  const [searchQuery, setSearchQuery] = useState("");
-  
 
   useEffect(() => {
     const fetchAssets = async () => {
@@ -43,29 +44,46 @@ const AssetList = () => {
   }, [axiosSecure]);
 
   const handleSortByQuantity = () => {
-    const sortedAssets = [...assets].sort((a, b) => a.quantity - b.quantity);
+    const sortedAssets = [...assets].sort((a, b) => {
+      if (sortOrder === "asc") {
+        return a.quantity - b.quantity;
+      } else {
+        return b.quantity - a.quantity;
+      }
+    });
     setAssets(sortedAssets);
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
   const handleFilterByStockStatus = (status) => {
     setFilterStatus(status);
   };
-  
 
-  const handleSearch = (query) => {
+  const handleFilterByType = (type) => {
+    setFilterType(type);
+  };
+
+  const handleSearchQuery = (query) => {
     setSearchQuery(query);
   };
 
   const filteredAssets = assets.filter((asset) => {
-    if (filterStatus === "available") {
-      return asset.quantity > 0;
-    } else if (filterStatus === "out-of-stock") {
-      return asset.quantity === 0;
-    }
-    return true;
-  }).filter((asset) =>
-    asset.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+    const matchesStatus =
+      filterStatus === "all" ||
+      (filterStatus === "available" && asset.quantity > 0) ||
+      (filterStatus === "out-of-stock" && asset.quantity === 0);
+
+    const matchesType =
+      filterType === "all" ||
+      (filterType === "Refundable" && asset.type === "Refundable") ||
+      (filterType === "Non-Refundable" && asset.type === "Non-Refundable");
+
+    const matchesSearch = asset.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    return matchesStatus && matchesType && matchesSearch;
+  });
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -109,6 +127,7 @@ const AssetList = () => {
       }
     });
   };
+
   const handleUpdateAsset = async (updatedAsset) => {
     try {
       const res = await axiosSecure.patch(
@@ -161,24 +180,29 @@ const AssetList = () => {
               <option value="available">Available</option>
               <option value="out-of-stock">Out of Stock</option>
             </select>
-            <Button onClick={handleSortByQuantity}>Sort by Quantity</Button>
+            <select
+              className="border border-gray-300 rounded-md py-1 px-2 text-sm"
+              onChange={(e) => handleFilterByType(e.target.value)}
+            >
+              <option value="all">All Types</option>
+              <option value="Refundable">Refundable</option>
+              <option value="Non-Refundable">Non-Refundable</option>
+            </select>
+            <Button onClick={handleSortByQuantity}>
+              Sort by Quantity {sortOrder === "asc" ? "↑" : "↓"}
+            </Button>
           </div>
           <div className="w-full md:w-72">
-          <Input
+            <Input
               label="Search"
               icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-              onChange={(e) => handleSearch(e.target.value)}
-              
+              onChange={(e) => handleSearchQuery(e.target.value)}
             />
           </div>
         </div>
       </div>
       <Card className="w-full h-[800px] border overflow-y-auto">
-        <CardHeader
-          floated={false}
-          shadow={false}
-          className="rounded-none"
-        ></CardHeader>
+        <CardHeader floated={false} shadow={false} className="rounded-none" />
         <CardBody className="px-0 relative">
           <p className="absolute left-4 -top-0 font-bold text-blue-500">
             Assets ({filteredAssets.length})
@@ -272,12 +296,12 @@ const AssetList = () => {
                       {new Date(asset.createdAt).toLocaleDateString()}
                     </Typography>
                   </td>
-                  <td className="p-4 border-b border-blue-gray-50">
+                  <td className="p-4 border-b border-blue-gray-50 flex items-center gap-2">
                     <Tooltip content="Edit Asset">
                       <IconButton
                         variant="text"
-                        className="text-blue-500"
-                        onClick={() => handleEditAsset(asset)} // Make sure to call handleEditAsset with the asset
+                        color="blue-gray"
+                        onClick={() => handleEditAsset(asset)}
                       >
                         <PencilIcon className="h-4 w-4" />
                       </IconButton>
@@ -285,7 +309,7 @@ const AssetList = () => {
                     <Tooltip content="Delete Asset">
                       <IconButton
                         variant="text"
-                        className="text-red-500"
+                        color="blue-gray"
                         onClick={() => handleDeleteAsset(asset._id)}
                       >
                         <TrashIcon className="h-4 w-4" />
@@ -296,42 +320,40 @@ const AssetList = () => {
               ))}
             </tbody>
           </table>
+          {editingAsset && (
+            <EditAssetModal
+              asset={editingAsset}
+              onClose={() => setEditingAsset(null)}
+              onUpdate={handleUpdateAsset}
+            />
+          )}
         </CardBody>
-        <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-          <Typography variant="small" color="blue-gray" className="font-normal">
-            Page {currentPage} of{" "}
-            {Math.ceil(filteredAssets.length / itemsPerPage)}
+        <CardFooter className="flex items-center justify-center border-t border-blue-gray-50 p-4">
+          <Button
+            variant="outlined"
+            color="blue-gray"
+            size="sm"
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </Button>
+          <Typography variant="small" color="blue-gray" className="mx-2">
+            Page {currentPage}
           </Typography>
-          <div className="flex gap-2">
-            <Button
-              variant="outlined"
-              size="sm"
-              onClick={() => paginate(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="outlined"
-              size="sm"
-              onClick={() => paginate(currentPage + 1)}
-              disabled={indexOfLastItem >= filteredAssets.length}
-            >
-              Next
-            </Button>
-          </div>
+          <Button
+            variant="outlined"
+            color="blue-gray"
+            size="sm"
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentItems.length < itemsPerPage}
+          >
+            Next
+          </Button>
         </CardFooter>
       </Card>
-      {editingAsset && (
-        <EditAssetModal
-          editingAsset={editingAsset}
-          onClose={() => setEditingAsset(null)}
-          onUpdate={handleUpdateAsset}
-        />
-      )}
     </div>
   );
 };
 
 export default AssetList;
-
