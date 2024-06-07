@@ -20,7 +20,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div>
+    <div className="h-full">
       {isHR ? (
         <HRDashboard user={user} logOut={logOut} hrData={hrData} />
       ) : (
