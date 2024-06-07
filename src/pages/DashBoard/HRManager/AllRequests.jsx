@@ -1,47 +1,108 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Input,
   Card,
   CardBody,
   Typography,
   Button,
+  
 } from "@material-tailwind/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 
 const MyAsset = () => {
-  const [assetRequests, setAssetRequests] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-
   const axiosSecure = useAxiosSecure();
 
-  useEffect(() => {
-    const fetchAssetRequests = async () => {
-      try {
-        const response = await axiosSecure.get("/asset-requests", {
-          params: {
-            searchTerm,
-          },
-        });
-        setAssetRequests(response.data);
-      } catch (error) {
-        console.error("Error fetching asset requests:", error);
-      }
-    };
-
-    fetchAssetRequests();
-  }, [axiosSecure, searchTerm]);
+  const { data: assetRequests = [], refetch } = useQuery({
+    queryKey: ["assetRequests"],
+    queryFn: async () => {
+      const response = await axiosSecure.get("/asset-requests", {
+        params: {
+          searchTerm,
+        },
+      });
+      return response.data;
+    },
+  });
 
   const handleSearchTermChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
+  const handleApprove = async (requestId) => {
+    try {
+      await axiosSecure.put(`/asset-requests/${requestId}`, {
+        status: 'Approved',
+      });
+      refetch(); 
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Asset request approved successfully',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      // Check if the error is a 404 Not Found
+      if (error.response && error.response.status === 404) {
+        // Treat 404 as a success since the resource was found and updated
+        refetch(); 
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Asset request approved successfully',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else {
+        // Handle other errors
+        console.error('Error approving asset request:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'An error occurred while approving the asset request',
+        });
+      }
+    }
+  };
+  
+  
+  const handleReject = async (requestId) => {
+    try {
+      await axiosSecure.delete(`/asset-requests/${requestId}`);
+
+      refetch();
+
+      // Show a success message to the user
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Asset request rejected successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      console.error("Error rejecting asset request:", error);
+      // Show an error message to the user
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "An error occurred while rejecting the asset request",
+      });
+    }
+  };
+
   return (
     <div className="">
-      <Card className=" w-[700px] ">
+      <Card className="w-[700px]">
         <CardBody>
           <div className="flex justify-between items-center">
-            <Typography className="font-bold" color="blue-gray ">Requests List</Typography>
+            <Typography className="font-bold" color="blue-gray">
+              Requests List
+            </Typography>
             <div className="flex items-center mb-4">
               <Input
                 label="Search"
@@ -52,9 +113,8 @@ const MyAsset = () => {
               />
             </div>
           </div>
-          <div className="  h-[800px] overflow-x-auto overflow-y-auto">
+          <div className="h-[800px] overflow-x-auto overflow-y-auto">
             <table className="mt-4 w-full text-left border">
-              {/* Table Header */}
               <thead>
                 <tr>
                   <th className="p-2 border-b border-blue-gray-200">
@@ -79,10 +139,9 @@ const MyAsset = () => {
                   <th className="p-4 border-b border-blue-gray-200">Actions</th>
                 </tr>
               </thead>
-              {/* Table Body */}
               <tbody>
                 {assetRequests.map((assetRequest) => (
-                  <tr key={assetRequest._id} className="hover:bg-blue-50">
+                  <tr key={assetRequest._id} className="">
                     <td className="p-4 border-b border-blue-gray-200">
                       {assetRequest.assetName}
                     </td>
@@ -101,14 +160,36 @@ const MyAsset = () => {
                       )}
                     </td>
                     <td className="p-4 border-b border-blue-gray-200">
-                      {assetRequest.additionalNote}
+                      {assetRequest.additionalNotes}
                     </td>
-                    <td className="p-4 border-b border-blue-gray-200">
-                      {assetRequest.status}
+                    <td
+                      className={`p-4 border-b font-bold border-blue-gray-200 ${
+                        assetRequest.requestStatus === "Pending"
+                          ? "text-red-500"
+                          : assetRequest.requestStatus === "Approved"
+                          ? "text-green-500"
+                          : ""
+                      }`}
+                    >
+                      {assetRequest.requestStatus}
                     </td>
                     <td className="p-4 space-y-1 border-b border-blue-gray-200">
-                      <Button color="blue">Approve</Button>
-                      <Button color="red">Reject</Button>
+                      {assetRequest.requestStatus !== "Approved" && (
+                        <Button
+                          variant="contained"
+                          color="blue"
+                          onClick={() => handleApprove(assetRequest._id)}
+                        >
+                          Approve
+                        </Button>
+                      )}
+                      <Button
+                        variant="contained"
+                        color="red"
+                        onClick={() => handleReject(assetRequest._id)}
+                      >
+                        Reject
+                      </Button>
                     </td>
                   </tr>
                 ))}
