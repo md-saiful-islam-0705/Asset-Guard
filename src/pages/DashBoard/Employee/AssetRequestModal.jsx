@@ -62,6 +62,7 @@ const AssetRequestModal = ({ selectedAsset }) => {
       });
     }
   };
+  
 
   return (
     <dialog id="asset_request_modal" className="modal">
@@ -73,11 +74,11 @@ const AssetRequestModal = ({ selectedAsset }) => {
           <>
             <h3 className="font-bold text-lg my-2 text-center">Request Asset</h3>
             <div className="flex justify-between items-center">
-            <div className="flex items-center justify-start px-5">
+            <div className="flex items-center justify-start ">
               <p className="py-2 font-semibold text-gray-700"></p>
-              <span className="py-2 font-semibold text-gray-500">{selectedAsset.name}</span>
+              <span className="py-2 font-semibold text-gray-500">{selectedAsset.name} <span className="text-blue-500">({selectedAsset.quantity} pcs)</span> </span>
             </div>
-            <div className="flex items-center justify-start px-5">
+            <div className="flex items-center justify-start ">
               <p className="py-2 font-semibold text-gray-700"></p>
               <span className="font-semibold text-blue-500">{selectedAsset.type}</span>
             </div>

@@ -1,30 +1,27 @@
-import { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import { FaCalendarAlt, FaClipboardList, FaExclamationCircle } from 'react-icons/fa';
 import { MdEventNote } from "react-icons/md";
+import { useQuery } from '@tanstack/react-query';
 
 const EmployeeHome = () => {
-    const [pendingRequests, setPendingRequests] = useState([]);
-    const [monthlyRequests, setMonthlyRequests] = useState([]);
     const [affiliated, setAffiliated] = useState(true); // Assuming the user is initially affiliated
 
+    // Fetch data for pending requests
+    const { data: pendingRequests = [], isLoading: pendingLoading } = useQuery('pendingRequests', () => axios.get('/pending-requests').then(res => res.data));
+    
+    // Fetch data for monthly requests
+    const { data: monthlyRequests = [], isLoading: monthlyLoading } = useQuery('monthlyRequests', () => axios.get('/monthly-requests').then(res => res.data));
+
+    // Check if the user is affiliated with any company
+    const { data: affiliationData = {}, isLoading: affiliationLoading } = useQuery('checkAffiliation', () => axios.get('/check-affiliation').then(res => res.data));
+
     useEffect(() => {
-        // Fetch data for pending requests
-        axios.get('http://localhost:3000/pending-requests')
-            .then(response => setPendingRequests(response.data))
-            .catch(error => console.error('Error fetching pending requests:', error));
-
-        // Fetch data for monthly requests
-        axios.get('http://localhost:3000/monthly-requests')
-            .then(response => setMonthlyRequests(response.data))
-            .catch(error => console.error('Error fetching monthly requests:', error));
-
-        // Check if the user is affiliated with any company
-        axios.get('http://localhost:3000/check-affiliation')
-            .then(response => setAffiliated(response.data.affiliated))
-            .catch(error => console.error('Error checking affiliation:', error));
-    }, []);
+        if (affiliationData && affiliationData.affiliated !== undefined) {
+            setAffiliated(affiliationData.affiliated);
+        }
+    }, [affiliationData]);
 
     return (
         <>
@@ -33,7 +30,9 @@ const EmployeeHome = () => {
             </Helmet>
             <div className="p-6">
                 <h1 className="text-3xl font-bold mb-4">Home Page</h1>
-                {affiliated ? (
+                {affiliationLoading || pendingLoading || monthlyLoading ? (
+                    <p>Loading...</p>
+                ) : affiliated ? (
                     <div>
                         {/* My Pending Requests Section */}
                         <div className="border rounded-md p-4 mb-4">

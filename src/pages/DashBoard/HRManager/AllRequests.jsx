@@ -5,14 +5,13 @@ import {
   CardBody,
   Typography,
   Button,
-  
 } from "@material-tailwind/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 
-const MyAsset = () => {
+const AllRequest = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const axiosSecure = useAxiosSecure();
 
@@ -27,21 +26,34 @@ const MyAsset = () => {
       return response.data;
     },
   });
+  const { data: assets = [] } = useQuery({
+    queryKey: ["assets"],
+    queryFn: async () => {
+      const response = await axiosSecure.get("/assets");
+      return response.data;
+    },
+  });
+
+  const getAssetQuantity = (assetId) => {
+    const asset = assets.find((a) => a._id === assetId);
+    return asset ? asset.quantity : "N/A";
+  };
 
   const handleSearchTermChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleApprove = async (requestId) => {
+  const handleApprove = async (requestId,) => {
     try {
       await axiosSecure.put(`/asset-requests/${requestId}`, {
-        status: 'Approved',
+        status: "Approved",
       });
-      refetch(); 
+      
+      refetch();
       Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Asset request approved successfully',
+        position: "top-end",
+        icon: "success",
+        title: "Asset request approved successfully",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -49,27 +61,26 @@ const MyAsset = () => {
       // Check if the error is a 404 Not Found
       if (error.response && error.response.status === 404) {
         // Treat 404 as a success since the resource was found and updated
-        refetch(); 
+        refetch();
         Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Asset request approved successfully',
+          position: "top-end",
+          icon: "success",
+          title: "Asset request approved successfully",
           showConfirmButton: false,
           timer: 1500,
         });
       } else {
         // Handle other errors
-        console.error('Error approving asset request:', error);
+        console.error("Error approving asset request:", error);
         Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'An error occurred while approving the asset request',
+          icon: "error",
+          title: "Oops...",
+          text: "An error occurred while approving the asset request",
         });
       }
     }
   };
-  
-  
+
   const handleReject = async (requestId) => {
     try {
       await axiosSecure.delete(`/asset-requests/${requestId}`);
@@ -124,6 +135,9 @@ const MyAsset = () => {
                     Asset Type
                   </th>
                   <th className="p-2 border-b border-blue-gray-200">
+                    Asset Quantity
+                  </th>
+                  <th className="p-2 border-b border-blue-gray-200">
                     Email of Requester
                   </th>
                   <th className="p-2 border-b border-blue-gray-200">
@@ -147,6 +161,9 @@ const MyAsset = () => {
                     </td>
                     <td className="p-4 border-b border-blue-gray-200">
                       {assetRequest.assetType}
+                    </td>
+                    <td className="p-4 border-b border-blue-gray-200">
+                      {getAssetQuantity(assetRequest.assetId)}
                     </td>
                     <td className="p-4 border-b border-blue-gray-200">
                       {assetRequest.user.userEmail}
@@ -202,4 +219,4 @@ const MyAsset = () => {
   );
 };
 
-export default MyAsset;
+export default AllRequest;

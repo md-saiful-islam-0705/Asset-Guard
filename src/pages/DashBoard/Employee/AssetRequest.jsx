@@ -16,12 +16,8 @@ const RequestAsset = () => {
 
   useEffect(() => {
     const fetchAssets = async () => {
-      try {
         const response = await axiosSecure.get("/assets");
         setAssets(response.data);
-      } catch (error) {
-        console.error("Error fetching assets:", error);
-      }
     };
 
     fetchAssets();
@@ -64,8 +60,6 @@ const RequestAsset = () => {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
-  
 
   const handleOpenModal = (asset) => {
     setSelectedAsset(asset);
@@ -112,7 +106,7 @@ const RequestAsset = () => {
         </div>
       </div>
       <div className="h-[700px] mt-10 overflow-y-auto">
-        <table className="h-full w-full text-left border">
+        <table className=" w-full text-left border">
           <thead>
             <tr>
               <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
@@ -159,12 +153,25 @@ const RequestAsset = () => {
                 <td className="p-2 border-b border-blue-gray-50 font-semibold text-gray-700">
                   {asset.name}
                 </td>
-                <td className={`p-2 border-b border-blue-gray-50 ${asset.type === 'Returnable' ? 'text-blue-300' : 'text-orange-300'}`}>
+                <td
+                  className={`p-2 border-b border-blue-gray-50 ${
+                    asset.type === "Returnable"
+                      ? "text-blue-300"
+                      : "text-orange-300"
+                  }`}
+                >
                   {asset.type}
                 </td>
-                <td className={`p-2 border-b border-blue-gray-50 ${asset.quantity > 0 ? 'text-green-300' : 'text-red-500'}`}>
-                  {asset.quantity > 0 ? "Available" : "Out of Stock"}
+                <td
+                  className={`p-2 border-b border-blue-gray-50 ${
+                    asset.quantity > 0 ? "text-green-300" : "text-red-500"
+                  }`}
+                >
+                  {asset.quantity > 0
+                    ? `Available (${asset.quantity})`
+                    : "Out of Stock"}
                 </td>
+
                 <td className="p-2 border-b ">
                   <button
                     className="btn btn-outline border-gray-300"
