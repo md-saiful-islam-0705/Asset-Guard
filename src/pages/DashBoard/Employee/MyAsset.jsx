@@ -1,5 +1,11 @@
-import { useState, useEffect } from "react";
-import { Input, Card, CardBody, Typography, Button } from "@material-tailwind/react";
+import { useState, useEffect, useContext } from "react";
+import {
+  Input,
+  Card,
+  CardBody,
+  Typography,
+  Button,
+} from "@material-tailwind/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { PDFDownloadLink } from "@react-pdf/renderer";
@@ -7,6 +13,7 @@ import AssetDetailsPDF from "./AssetDetailsPdf";
 import { FaPrint } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
+import { AuthContext } from "../../../providers/AuthProvider";
 
 const MyAsset = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,19 +25,21 @@ const MyAsset = () => {
   const itemsPerPage = 10;
 
   const axiosSecure = useAxiosSecure();
+  const { user } = useContext(AuthContext);
 
-  // Define the useQuery hook for fetching asset requests
   const { data: assetRequests = [], refetch } = useQuery({
     queryKey: ["assetRequests"],
     queryFn: async () => {
-      const response = await axiosSecure.get("/asset-requests");
+      const response = await axiosSecure.get("/asset-requests", {
+        params: { userEmail: user.email },
+      });
       return response.data;
     },
   });
-
   useEffect(() => {
-    // Retrieve returned asset IDs from localStorage
-    const storedReturnedAssets = JSON.parse(localStorage.getItem("returnedAssets"));
+    const storedReturnedAssets = JSON.parse(
+      localStorage.getItem("returnedAssets")
+    );
     if (storedReturnedAssets) {
       setReturnedAssets(storedReturnedAssets);
     }
@@ -73,12 +82,10 @@ const MyAsset = () => {
     try {
       await axiosSecure.put(`/assets/return/${assetId}`);
       refetch();
-      // Add the returned asset to the returnedAssets state
       setReturnedAssets((prevReturnedAssets) => [
         ...prevReturnedAssets,
         assetId,
       ]);
-      // Store returned asset IDs in localStorage
       localStorage.setItem(
         "returnedAssets",
         JSON.stringify([...returnedAssets, assetId])
@@ -92,7 +99,6 @@ const MyAsset = () => {
       });
     } catch (error) {
       console.error("Error returning asset:", error);
-      // Handle error here
     }
   };
 
@@ -104,8 +110,10 @@ const MyAsset = () => {
 
     const matchesType =
       filterType === "all" ||
-      (filterType === "returnable" && assetRequest.assetType === "Returnable") ||
-      (filterType === "non-returnable" && assetRequest.assetType === "Non-Returnable");
+      (filterType === "returnable" &&
+        assetRequest.assetType === "Returnable") ||
+      (filterType === "non-returnable" &&
+        assetRequest.assetType === "Non-Returnable");
 
     const matchesSearch = assetRequest.assetName
       .toLowerCase()
@@ -160,7 +168,10 @@ const MyAsset = () => {
       {/* Asset List Section */}
       <Card className="mt-4 h-[800px] w-full border">
         <CardBody>
-          <Typography color="blue-gray" className="font-bold text-blue-500 mb-3">
+          <Typography
+            color="blue-gray"
+            className="font-bold text-blue-500 mb-3"
+          >
             Asset List
           </Typography>
           <div className="h-[700px] overflow-y-auto overflow-x-scroll">
@@ -168,11 +179,21 @@ const MyAsset = () => {
               {/* Table Header */}
               <thead>
                 <tr>
-                  <th className="p-4 border-b border-blue-gray-200">Asset Name</th>
-                  <th className="p-4 border-b border-blue-gray-200">Asset Type</th>
-                  <th className="p-4 border-b border-blue-gray-200">Request Date</th>
-                  <th className="p-4 border-b border-blue-gray-200">Approval Date</th>
-                  <th className="p-4 border-b border-blue-gray-200">Request Status</th>
+                  <th className="p-4 border-b border-blue-gray-200">
+                    Asset Name
+                  </th>
+                  <th className="p-4 border-b border-blue-gray-200">
+                    Asset Type
+                  </th>
+                  <th className="p-4 border-b border-blue-gray-200">
+                    Request Date
+                  </th>
+                  <th className="p-4 border-b border-blue-gray-200">
+                    Approval Date
+                  </th>
+                  <th className="p-4 border-b border-blue-gray-200">
+                    Request Status
+                  </th>
                   <th className="p-4 border-b border-blue-gray-200">Action</th>
                 </tr>
               </thead>
@@ -183,24 +204,30 @@ const MyAsset = () => {
                     <td className="p-4 border-b border-blue-gray-200">
                       {assetRequest.assetName}
                     </td>
-                    <td className="p-4 border-b border-blue-gray-200">
+                    <td className="p-4 border-b border-blue-gray-200 ">
                       {assetRequest.assetType}
                     </td>
                     <td className="p-4 border-b border-blue-gray-200">
-                      {new Date(assetRequest.requestDate).toLocaleDateString("en-GB")}
+                      {new Date(assetRequest.requestDate).toLocaleDateString(
+                        "en-GB"
+                      )}
                     </td>
                     <td className="p-4 border-b border-blue-gray-200">
                       {assetRequest.approvalDate
-                        ? new Date(assetRequest.approvalDate).toLocaleDateString("en-GB")
+                        ? new Date(
+                            assetRequest.approvalDate
+                          ).toLocaleDateString("en-GB")
                         : "N/A"}
                     </td>
-                    <td className={`p-4 border-b font-bold border-blue-gray-200 ${
-                      assetRequest.requestStatus === "Pending"
-                        ? "text-red-500"
-                        : assetRequest.requestStatus === "Approved"
-                        ? "text-green-500"
-                        : ""
-                    }`}>
+                    <td
+                      className={`p-4 border-b font-bold border-blue-gray-200 ${
+                        assetRequest.requestStatus === "Pending"
+                          ? "text-red-500"
+                          : assetRequest.requestStatus === "Approved"
+                          ? "text-green-500"
+                          : ""
+                      }`}
+                    >
                       {assetRequest.requestStatus}
                     </td>
                     <td className="p-4 border-b border-blue-gray-200">
@@ -229,13 +256,20 @@ const MyAsset = () => {
                           </Button>
                         )}
                       {assetRequest.requestStatus === "Approved" && (
-                        <Button color="blue" className="font-bold my-1 text-center">
+                        <Button
+                          color="blue"
+                          className="font-bold my-1 text-center"
+                        >
                           <PDFDownloadLink
-                            document={<AssetDetailsPDF assetRequest={assetRequest} />}
+                            document={
+                              <AssetDetailsPDF assetRequest={assetRequest} />
+                            }
                             fileName="asset-details.pdf"
                           >
                             {({ loading }) =>
-                              loading ? "Loading..." : (
+                              loading ? (
+                                "Loading..."
+                              ) : (
                                 <div className="flex gap-1 justify-between items-center">
                                   <p>Print</p>
                                   <FaPrint />
@@ -263,11 +297,14 @@ const MyAsset = () => {
           Previous
         </Button>
         <Typography variant="small" color="blue-gray" className="mx-2">
-          Page {currentPage} of {Math.ceil(filteredAssets.length / itemsPerPage)}
+          Page {currentPage} of{" "}
+          {Math.ceil(filteredAssets.length / itemsPerPage)}
         </Typography>
         <Button
           onClick={() => paginate(currentPage + 1)}
-          disabled={currentPage === Math.ceil(filteredAssets.length / itemsPerPage)}
+          disabled={
+            currentPage === Math.ceil(filteredAssets.length / itemsPerPage)
+          }
         >
           Next
         </Button>

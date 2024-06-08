@@ -32,12 +32,8 @@ const AssetList = () => {
 
   useEffect(() => {
     const fetchAssets = async () => {
-      try {
         const response = await axiosSecure.get("/assets");
         setAssets(response.data);
-      } catch (error) {
-        console.error("Error fetching assets:", error);
-      }
     };
 
     fetchAssets();

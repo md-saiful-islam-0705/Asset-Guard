@@ -3,11 +3,13 @@ import logo from "../../../assets/logo/asset-logo.png";
 import { useContext, useState, useEffect, useRef } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import { FaBars } from "react-icons/fa";
+import useHR from "../../../hooks/useHR";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const { isHR } = useHR;
 
   const handleLogOut = () => {
     logOut()
@@ -53,7 +55,9 @@ const Navbar = () => {
                 <li>
                   <Link to="/profile">Profile</Link>
                 </li>
-                <li onClick={handleLogOut} className="text-red-500">Log Out</li>
+                <li onClick={handleLogOut} className="text-red-500">
+                  Log Out
+                </li>
               </>
             ) : (
               <>
@@ -74,7 +78,11 @@ const Navbar = () => {
           </ul>
         </div>
         <Link to="/">
-          <img className="btn btn-ghost w-full h-16 bg-cover" src={logo} alt="Logo" />
+          <img
+            className="btn btn-ghost w-full h-16 bg-cover"
+            src={logo}
+            alt="Logo"
+          />
         </Link>
       </div>
       <div className="lg:flex justify-end w-full pr-5">
@@ -82,22 +90,34 @@ const Navbar = () => {
           {user ? (
             <div>
               <li className="relative" ref={dropdownRef}>
-                <div className="flex items-center cursor-pointer bg-gray-200 rounded-full" onClick={handleDropdownToggle}>
-                  <img src={user.photoURL} alt="Profile" className="w-9 h-9 rounded-full" />
+                <div
+                  className="flex items-center cursor-pointer bg-gray-200 rounded-full"
+                  onClick={handleDropdownToggle}
+                >
+                  <img
+                    src={user.photoURL}
+                    alt="Profile"
+                    className="w-9 h-9 rounded-full"
+                  />
                   <FaBars className="ml-2" />
                 </div>
                 {dropdownOpen && (
                   <ul className="absolute right-0 p-2 top-12 mt-2 w-48 bg-white border-2 shadow-lg rounded-md z-10">
-                    <li>
-                      <Link to="/dashboard">Dashboard</Link>
-                    </li>
+                    {isHR ? (
+                      <li>
+                        <Link to="/dashboard/hr-home">Dashboard</Link>
+                      </li>
+                    ) : (
+                      <li>
+                        <Link to="/dashboard/employee-home">Dashboard</Link>
+                      </li>
+                    )}
                     <li>
                       <Link to="/profile">Profile</Link>
                     </li>
                     <li onClick={handleLogOut} className="text-red-500 ">
                       <Link to="">Log Out</Link>
                     </li>
-                    
                   </ul>
                 )}
               </li>

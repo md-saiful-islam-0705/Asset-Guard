@@ -65,7 +65,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "employee-home",
-        element: <EmployeeHome></EmployeeHome>,
+        element: (
+          <PrivateRoute>
+            <EmployeeHome></EmployeeHome>
+          </PrivateRoute>
+        ),
       },
       {
         path: "hr-home",
