@@ -139,7 +139,7 @@ const EmployeeDashboard = () => {
           </div>
         </div>
       </aside>
-      <main className="flex-1 p-5">
+      <main className="flex-1 p-5 overflow-y-scroll">
         <div className="md:hidden flex justify-between items-center p-4 border bg-white shadow">
           <button onClick={() => setMenuOpen(!menuOpen)}>
             <FaBars />

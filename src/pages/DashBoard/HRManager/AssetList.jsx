@@ -157,8 +157,8 @@ const AssetList = () => {
           Asset List
         </Typography>
       </div>
-      <div className="my-4">
-        <div className="flex gap-4 justify-between items-center">
+      <div className="my-4 ">
+        <div className="flex gap-4 lg:flex-row flex-col justify-between items-center">
           <div className="flex gap-4">
             <select
               className="border border-gray-300 rounded-md py-1 px-2 text-sm"

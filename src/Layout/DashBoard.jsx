@@ -20,11 +20,11 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="h-full">
+    <div className="h-full ">
       {isHR ? (
         <HRDashboard user={user} logOut={logOut} hrData={hrData} />
       ) : (
-        <EmployeeDashboard user={user} logOut={logOut} />
+        <EmployeeDashboard  user={user} logOut={logOut} />
       )}
     </div>
   );

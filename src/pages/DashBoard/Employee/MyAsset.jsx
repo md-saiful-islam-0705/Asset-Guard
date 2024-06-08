@@ -124,12 +124,12 @@ const MyAsset = () => {
   return (
     <div className="">
       {/* Filter and Search Section */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <div>
           <select
             value={filterStatus}
             onChange={handleFilterStatusChange}
-            className="ml-4 border border-gray-300 rounded-md py-1 px-2 text-sm"
+            className="ml-4 border border-gray-300 rounded-md p-2 text-sm"
           >
             <option value="all">Asset Status</option>
             <option value="pending">Pending</option>
@@ -139,7 +139,7 @@ const MyAsset = () => {
           <select
             value={filterType}
             onChange={handleFilterTypeChange}
-            className="ml-4 border border-gray-300 rounded-md py-1 px-2 text-sm"
+            className="ml-4 border border-gray-300 rounded-md p-2 text-sm"
           >
             <option value="all">Asset Type</option>
             <option value="returnable">Returnable</option>

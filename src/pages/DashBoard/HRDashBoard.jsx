@@ -124,7 +124,7 @@ const HRDashboard = ({ user, logOut, hrData }) => {
           </li>
           <li>
             <NavLink
-              to="/dashboard/profile"
+              to="/dashboard/hr-profile"
               className={({ isActive }) =>
                 isActive
                   ? "flex items-center py-2 border-2 border-blue-500 rounded px-2 text-blue-500"
@@ -166,7 +166,7 @@ const HRDashboard = ({ user, logOut, hrData }) => {
           </div>
         </div>
       </aside>
-      <main className="flex-1 p-5">
+      <main className="flex-1 p-5 overflow-y-scroll">
         <div className="md:hidden flex justify-between items-center p-4 border bg-white shadow">
           <button onClick={() => setMenuOpen(!menuOpen)}>
             <FaBars />

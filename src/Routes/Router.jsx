@@ -17,6 +17,7 @@ import RequestAsset from "../pages/DashBoard/Employee/AssetRequest";
 import MyAsset from "../pages/DashBoard/Employee/MyAsset";
 import AllRequests from "../pages/DashBoard/HRManager/AllRequests";
 import MyTeam from "../pages/DashBoard/Employee/MyTeam";
+import HRHome from "../pages/DashBoard/HRManager/HRHome";
 
 export const router = createBrowserRouter([
   {
@@ -67,6 +68,10 @@ export const router = createBrowserRouter([
         element: <EmployeeHome></EmployeeHome>,
       },
       {
+        path: "hr-home",
+        element: <HRHome></HRHome>,
+      },
+      {
         path: "add-employee",
         element: <AddEmployee></AddEmployee>,
       },
@@ -92,6 +97,10 @@ export const router = createBrowserRouter([
       },
       {
         path: "employee-profile",
+        element: <Profile></Profile>,
+      },
+      {
+        path: "hr-profile",
         element: <Profile></Profile>,
       },
       {
