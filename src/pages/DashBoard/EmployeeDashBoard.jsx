@@ -96,7 +96,7 @@ const EmployeeDashboard = () => {
           </li>
           <li>
             <NavLink
-              to="/dashboard/profile"
+              to="/dashboard/employee-profile"
               className={({ isActive }) =>
                 isActive
                   ? "flex items-center py-2 border-2 border-blue-500 rounded px-2 text-blue-500"

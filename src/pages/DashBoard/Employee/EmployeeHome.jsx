@@ -1,95 +1,157 @@
-import  { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import axios from 'axios';
-import { FaCalendarAlt, FaClipboardList, FaExclamationCircle } from 'react-icons/fa';
-import { MdEventNote } from "react-icons/md";
-import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from "react";
+import { Card, CardBody, Typography } from "@material-tailwind/react";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const EmployeeHome = () => {
-    const [affiliated, setAffiliated] = useState(true); // Assuming the user is initially affiliated
+  const axiosSecure = useAxiosSecure();
+  const [monthlyRequests, setMonthlyRequests] = useState([]);
+  const [pendingRequests, setPendingRequests] = useState([]);
 
-    // Fetch data for pending requests
-    const { data: pendingRequests = [], isLoading: pendingLoading } = useQuery('pendingRequests', () => axios.get('/pending-requests').then(res => res.data));
-    
-    // Fetch data for monthly requests
-    const { data: monthlyRequests = [], isLoading: monthlyLoading } = useQuery('monthlyRequests', () => axios.get('/monthly-requests').then(res => res.data));
+  // Define the useQuery hook for fetching asset requests
+  const { data: assetRequests = [] } = useQuery({
+    queryKey: ["assetRequests"],
+    queryFn: async () => {
+      const response = await axiosSecure.get("/asset-requests");
+      return response.data;
+    },
+  });
 
-    // Check if the user is affiliated with any company
-    const { data: affiliationData = {}, isLoading: affiliationLoading } = useQuery('checkAffiliation', () => axios.get('/check-affiliation').then(res => res.data));
+  useEffect(() => {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    const filteredMonthlyRequests = assetRequests
+      .filter((request) => {
+        const requestDate = new Date(request.requestDate);
+        return (
+          requestDate.getMonth() === currentMonth &&
+          requestDate.getFullYear() === currentYear
+        );
+      })
+      .sort((a, b) => new Date(b.requestDate) - new Date(a.requestDate));
+    setMonthlyRequests(filteredMonthlyRequests);
 
-    useEffect(() => {
-        if (affiliationData && affiliationData.affiliated !== undefined) {
-            setAffiliated(affiliationData.affiliated);
-        }
-    }, [affiliationData]);
-
-    return (
-        <>
-            <Helmet>
-                <title>Home Page</title>
-            </Helmet>
-            <div className="p-6">
-                <h1 className="text-3xl font-bold mb-4">Home Page</h1>
-                {affiliationLoading || pendingLoading || monthlyLoading ? (
-                    <p>Loading...</p>
-                ) : affiliated ? (
-                    <div>
-                        {/* My Pending Requests Section */}
-                        <div className="border rounded-md p-4 mb-4">
-                            <h2 className="text-lg font-semibold flex items-center">
-                            <FaClipboardList  className="w-6 h-6 mr-2" /> My Pending Requests
-                            </h2>
-                            {pendingRequests.length > 0 ? (
-                                <ul className="list-disc list-inside">
-                                    {pendingRequests.map(request => (
-                                        <li key={request.id}>{request.title}</li>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <p>No pending requests</p>
-                            )}
-                        </div>
-                        {/* My Monthly Requests Section */}
-                        <div className="border rounded-md p-4 mb-4">
-                            <h2 className="text-lg font-semibold flex items-center">
-                            <FaCalendarAlt className="w-6 h-6 mr-2" /> My Monthly Requests
-                            </h2>
-                            {monthlyRequests.length > 0 ? (
-                                <ul className="list-disc list-inside">
-                                    {monthlyRequests.map(request => (
-                                        <li key={request.id}>{request.title}</li>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <p>No monthly requests</p>
-                            )}
-                        </div>
-                        {/* Additional Sections */}
-                        {/* You can add more sections here */}
-                        {/* For example: */}
-                        {/* Calendar Section */}
-                        <div className="border rounded-md p-4 mb-4">
-                            <h2 className="text-lg font-semibold flex items-center">
-                            <FaCalendarAlt className="w-6 h-6 mr-2" /> Calendar
-                            </h2>
-                            {/* Your Calendar component goes here */}
-                        </div>
-                        {/* Events Section */}
-                        <div className="border rounded-md p-4 mb-4">
-                            <h2 className="text-lg font-semibold flex items-center">
-                            <MdEventNote   className="w-6 h-6 mr-2" /> Events
-                            </h2>
-                            {/* Your Events component goes here */}
-                        </div>
-                    </div>
-                ) : (
-                    <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4" role="alert">
-                        <FaExclamationCircle className="w-5 h-5 inline mr-2" /> You are not affiliated with any company. Please contact your HR. 
-                    </div>
-                )}
-            </div>
-        </>
+    // Filter pending requests
+    const filteredPendingRequests = assetRequests.filter(
+      (request) => request.requestStatus === "Pending"
     );
+    setPendingRequests(filteredPendingRequests);
+  }, [assetRequests]);
+
+  return (
+    <div>
+      <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-4">
+        <Card className="mt-4 h-[400px] w-full border border-blue-100 ">
+          <CardBody className="overflow-y-auto ">
+            <div className="flex items-center justify-between ">
+              <Typography
+                color="blue-gray"
+                className="font-bold text-blue-500 mb-3"
+              >
+                My Monthly Requests{" "}
+              </Typography>
+              <Typography className="font-bold text-blue-500 mb-3">
+                ({new Date().toLocaleString("default", { month: "long" })})
+              </Typography>
+            </div>
+            {monthlyRequests.length > 0 ? (
+              <div className="border-2 p-2 rounded-lg overflow-y-auto">
+                <ul>
+                  {monthlyRequests.map((request) => (
+                    <li key={request._id}>
+                      <span className="font-semibold">
+                        {request.assetName} -{" "}
+                      </span>
+                      <span className="text-gray-500">
+                        {new Date(request.requestDate).toLocaleString()}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <p>No requests made this month</p>
+            )}
+          </CardBody>
+        </Card>
+        <Card className="mt-4 h-[400px] w-full border border-orange-100">
+          <CardBody className="overflow-y-auto">
+            <div className="flex justify-between">
+              <Typography
+                color="blue-gray"
+                className="font-bold text-orange-500 mb-3"
+              >
+                My Pending Requests
+              </Typography>
+              <Typography
+                color="blue-gray"
+                className="font-bold text-orange-500 mb-3"
+              >
+                ({pendingRequests.length})
+              </Typography>
+            </div>
+            {pendingRequests.length > 0 ? (
+              <div className="border-2 p-2 rounded-lg overflow-y-auto ">
+                <ol type="I">
+                  {pendingRequests.map((request) => (
+                    <li key={request._id}>{request.assetName}</li>
+                  ))}
+                </ol>
+              </div>
+            ) : (
+              <p>No pending requests</p>
+            )}
+          </CardBody>
+        </Card>
+      </div>
+      <Card className="mt-4 h-[400px] w-full border border-purple-100">
+        <CardBody className="overflow-y-auto">
+          <div className="flex justify-between">
+            <Typography
+              color="blue-gray"
+              className="font-bold text-purple-500 mb-3"
+            >
+              Announcement
+            </Typography>
+            <Typography
+              color="blue-gray"
+              className="font-bold text-purple-500 mb-3"
+            >
+              (1)
+            </Typography>
+          </div>
+
+          <div className="border-2 p-2 rounded-lg overflow-y-auto ">
+            <Typography>
+              We are excited to announce the launch of our new Asset Management
+              System! This comprehensive solution is designed to revolutionize
+              the way we manage our assets, providing us with greater control,
+              visibility, and efficiency.
+            </Typography>
+            <Typography className="mt-2">
+              With our Asset Management System, we can now track and monitor all
+              our assets in real-time, ensuring their optimal utilization and
+              maintenance. From physical equipment to digital resources,
+              everything is now centralized and easily accessible.
+            </Typography>
+            <Typography className="mt-2">
+              Additionally, our system allows us to generate insightful reports
+              and analytics, empowering us to make data-driven decisions and
+              optimize our asset management strategies. This enhances our
+              operational efficiency and reduces unnecessary costs.
+            </Typography>
+            <Typography className="mt-2">
+              We encourage all employees to familiarize themselves with the new
+              system and leverage its capabilities to streamline their workflows
+              and improve productivity. Together, let embrace this exciting
+              advancement in our asset management practices!
+            </Typography>
+          </div>
+        </CardBody>
+      </Card>
+    </div>
+  );
 };
 
 export default EmployeeHome;

@@ -91,6 +91,10 @@ export const router = createBrowserRouter([
         element: <MyAsset></MyAsset>,
       },
       {
+        path: "employee-profile",
+        element: <Profile></Profile>,
+      },
+      {
         path: "my-team",
         element: <MyTeam></MyTeam>,
       },
