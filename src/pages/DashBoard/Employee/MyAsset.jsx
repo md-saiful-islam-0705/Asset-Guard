@@ -187,7 +187,7 @@ const MyAsset = () => {
                       </Button>
                     )}
                     {assetRequest.requestStatus === "Approved" &&
-                      assetRequest.assetType === "Refundable" && (
+                      assetRequest.assetType === "Returnable" && (
                         <Button
                           onClick={() =>
                             handleReturn(assetRequest._id, assetRequest.assetId)

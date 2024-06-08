@@ -47,8 +47,8 @@ const RequestAsset = () => {
 
     const matchesType =
       filterType === "all" ||
-      (filterType === "Refundable" && asset.type === "Refundable") ||
-      (filterType === "Non-Refundable" && asset.type === "Non-Refundable");
+      (filterType === "Returnable" && asset.type === "Returnable") ||
+      (filterType === "Non-Returnable" && asset.type === "Non-Returnable");
 
     const matchesSearch = asset.name
       .toLowerCase()
@@ -97,8 +97,8 @@ const RequestAsset = () => {
               onChange={(e) => handleFilterByType(e.target.value)}
             >
               <option value="all">All Types</option>
-              <option value="Refundable">Refundable</option>
-              <option value="Non-Refundable">Non-Refundable</option>
+              <option value="Returnable">Returnable</option>
+              <option value="Non-Returnable">Non-Returnable</option>
             </select>
           </div>
           <div className="w-full md:w-72">
@@ -159,7 +159,7 @@ const RequestAsset = () => {
                 <td className="p-2 border-b border-blue-gray-50 font-semibold text-gray-700">
                   {asset.name}
                 </td>
-                <td className={`p-2 border-b border-blue-gray-50 ${asset.type === 'Refundable' ? 'text-blue-300' : 'text-orange-300'}`}>
+                <td className={`p-2 border-b border-blue-gray-50 ${asset.type === 'Returnable' ? 'text-blue-300' : 'text-orange-300'}`}>
                   {asset.type}
                 </td>
                 <td className={`p-2 border-b border-blue-gray-50 ${asset.quantity > 0 ? 'text-green-300' : 'text-red-500'}`}>

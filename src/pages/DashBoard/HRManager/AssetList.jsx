@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import {
   MagnifyingGlassIcon,
   PencilIcon,
@@ -15,8 +17,6 @@ import {
   Tooltip,
   IconButton,
 } from "@material-tailwind/react";
-import Swal from "sweetalert2";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import EditAssetModal from "./EditAssetModal";
 
 const AssetList = () => {
@@ -27,7 +27,7 @@ const AssetList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [editingAsset, setEditingAsset] = useState(null);
-  const [sortOrder, setSortOrder] = useState("asc"); 
+  const [sortOrder, setSortOrder] = useState("asc");
   const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
@@ -44,28 +44,18 @@ const AssetList = () => {
   }, [axiosSecure]);
 
   const handleSortByQuantity = () => {
-    const sortedAssets = [...assets].sort((a, b) => {
-      if (sortOrder === "asc") {
-        return a.quantity - b.quantity;
-      } else {
-        return b.quantity - a.quantity;
-      }
-    });
+    const sortedAssets = [...assets].sort((a, b) =>
+      sortOrder === "asc" ? a.quantity - b.quantity : b.quantity - a.quantity
+    );
     setAssets(sortedAssets);
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
-  const handleFilterByStockStatus = (status) => {
-    setFilterStatus(status);
-  };
+  const handleFilterByStockStatus = (status) => setFilterStatus(status);
 
-  const handleFilterByType = (type) => {
-    setFilterType(type);
-  };
+  const handleFilterByType = (type) => setFilterType(type);
 
-  const handleSearchQuery = (query) => {
-    setSearchQuery(query);
-  };
+  const handleSearchQuery = (query) => setSearchQuery(query);
 
   const filteredAssets = assets.filter((asset) => {
     const matchesStatus =
@@ -75,8 +65,8 @@ const AssetList = () => {
 
     const matchesType =
       filterType === "all" ||
-      (filterType === "Refundable" && asset.type === "Refundable") ||
-      (filterType === "Non-Refundable" && asset.type === "Non-Refundable");
+      (filterType === "Returnable" && asset.type === "Returnable") ||
+      (filterType === "Non-Returnable" && asset.type === "Non-Returnable");
 
     const matchesSearch = asset.name
       .toLowerCase()
@@ -89,9 +79,7 @@ const AssetList = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredAssets.slice(indexOfFirstItem, indexOfLastItem);
 
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleDeleteAsset = async (assetId) => {
     Swal.fire({
@@ -169,7 +157,7 @@ const AssetList = () => {
           Asset List
         </Typography>
       </div>
-      <div className="my-4 ">
+      <div className="my-4">
         <div className="flex gap-4 justify-between items-center">
           <div className="flex gap-4">
             <select
@@ -185,8 +173,8 @@ const AssetList = () => {
               onChange={(e) => handleFilterByType(e.target.value)}
             >
               <option value="all">All Types</option>
-              <option value="Refundable">Refundable</option>
-              <option value="Non-Refundable">Non-Refundable</option>
+              <option value="Returnable">Returnable</option>
+              <option value="Non-Returnable">Non-Returnable</option>
             </select>
             <Button onClick={handleSortByQuantity}>
               Sort by Quantity {sortOrder === "asc" ? "↑" : "↓"}
@@ -298,9 +286,9 @@ const AssetList = () => {
                   </td>
                   <td className="p-4 border-b border-blue-gray-50 flex items-center gap-2">
                     <Tooltip content="Edit Asset">
-                      <IconButton
+                    <IconButton
                         variant="text"
-                        color="blue-gray"
+                        className="text-blue-500"
                         onClick={() => handleEditAsset(asset)}
                       >
                         <PencilIcon className="h-4 w-4" />
@@ -322,7 +310,7 @@ const AssetList = () => {
           </table>
           {editingAsset && (
             <EditAssetModal
-              asset={editingAsset}
+              editingAsset={editingAsset}
               onClose={() => setEditingAsset(null)}
               onUpdate={handleUpdateAsset}
             />

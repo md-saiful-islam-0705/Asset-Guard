@@ -54,8 +54,8 @@ const EditAssetModal = ({ editingAsset, onClose, onUpdate }) => {
               value={updatedAsset.type}
               onChange={handleChange}
             >
-              <option value="refundable">Refundable</option>
-              <option value="non-refundable">Non-Refundable</option>
+              <option value="returnable">Returnable</option>
+              <option value="non-returnable">Non-Returnable</option>
             </select>
           </div>
 

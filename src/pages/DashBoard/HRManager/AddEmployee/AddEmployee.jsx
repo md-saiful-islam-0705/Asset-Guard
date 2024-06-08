@@ -1,11 +1,9 @@
-
-
 const AddEmployee = () => {
-    return (
-        <div>
-            <h1>Add Employee</h1>
-        </div>
-    );
+  return (
+    <div>
+      
+    </div>
+  );
 };
 
 export default AddEmployee;
