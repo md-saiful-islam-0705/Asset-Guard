@@ -2,9 +2,12 @@ import { Card, CardBody, Typography } from "@material-tailwind/react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { PieChart } from "react-minimal-pie-chart";
+import Calendar from 'react-calendar';
+import { useEffect, useState } from "react";
 
 const HRHome = () => {
   const axiosSecure = useAxiosSecure();
+  const [date, setDate] = useState(new Date());
 
   // Fetch items with limited stock
   const { data: limitedStockItems = [] } = useQuery({
@@ -19,7 +22,7 @@ const HRHome = () => {
   const { data: pendingRequests = [] } = useQuery({
     queryKey: ["pendingRequests"],
     queryFn: async () => {
-      const response = await axiosSecure.get("/asset-requests");
+      const response = await axiosSecure.get("/asset-requests/all");
       return response.data
         .filter((request) => request.requestStatus === "Pending")
         .slice(0, 5);
@@ -30,7 +33,7 @@ const HRHome = () => {
   const { data: topRequestedItems = [] } = useQuery({
     queryKey: ["topRequestedItems"],
     queryFn: async () => {
-      const response = await axiosSecure.get("/asset-requests");
+      const response = await axiosSecure.get("/asset-requests/all");
       const topRequested = response.data.reduce((acc, curr) => {
         if (!acc[curr.assetName]) {
           acc[curr.assetName] = 1;
@@ -52,6 +55,9 @@ const HRHome = () => {
       return response.data;
     },
   });
+  useEffect(() => {
+    setDate(new Date());
+  }, []);
 
   // Calculate the total percentage of returnable and non-returnable items
   const returnableCount = assets.filter(
@@ -203,6 +209,20 @@ const HRHome = () => {
           </div>
         </CardBody>
       </Card>
+      <Card className="mt-4 h-[300px] w-full border border-orange-200">
+        <CardBody className="overflow-y-auto">
+          <Typography color="blue-gray" className="font-bold text-orange-500 mb-3">
+            Calendar
+          </Typography>
+          <div className="flex justify-center items-center border p-2 rounded-xl">
+            <Calendar
+              onChange={setDate}
+              value={date}
+            />
+          </div>
+        </CardBody>
+      </Card>
+      
     </div>
   );
 };

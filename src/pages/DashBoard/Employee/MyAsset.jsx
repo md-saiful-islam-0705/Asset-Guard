@@ -37,6 +37,7 @@ const MyAsset = () => {
     },
   });
   useEffect(() => {
+
     const storedReturnedAssets = JSON.parse(
       localStorage.getItem("returnedAssets")
     );

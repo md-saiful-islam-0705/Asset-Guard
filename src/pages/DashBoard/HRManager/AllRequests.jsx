@@ -22,10 +22,11 @@ const AllRequest = () => {
   const { data: assetRequests = [], refetch } = useQuery({
     queryKey: ["assetRequests"],
     queryFn: async () => {
-      const response = await axiosSecure.get("/asset-requests");
+      const response = await axiosSecure.get("/asset-requests/all");
       return response.data;
     },
   });
+  
 
   const { data: assets = [] } = useQuery({
     queryKey: ["assets"],
