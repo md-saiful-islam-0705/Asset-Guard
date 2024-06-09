@@ -63,13 +63,13 @@ const MyEmployeeList = () => {
     <div className="">
       <p className="text-center font-bold text-gray-500 my-6 text-2xl">
         My Employee List
-        
       </p>
 
       <div className="">
-      
         <table className="table shadow ">
-        <p className="px-4 py-2 absolute -top-4 -right-3 rounded-badge text-xl  font-bold bg-gray-300 ">{members.length}</p>
+          <p className="px-4 py-2 absolute -top-4 -right-3 rounded-badge text-xl  font-bold bg-gray-300 ">
+            {members.length}
+          </p>
           <thead>
             <tr className="bg-gray-100">
               <th>Profile</th>

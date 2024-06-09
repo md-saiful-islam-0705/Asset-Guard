@@ -33,7 +33,6 @@ const AddAsset = () => {
       };
 
       const assetRes = await axiosSecure.post("/assets", assetData);
-      console.log(assetRes.data);
 
       if (assetRes.data.insertedId) {
         reset();

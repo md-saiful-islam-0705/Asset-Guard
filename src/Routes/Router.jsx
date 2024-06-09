@@ -18,6 +18,7 @@ import MyAsset from "../pages/DashBoard/Employee/MyAsset";
 import AllRequests from "../pages/DashBoard/HRManager/AllRequests";
 import MyTeam from "../pages/DashBoard/Employee/MyTeam";
 import HRHome from "../pages/DashBoard/HRManager/HRHome";
+import AvailablePackage from "../pages/DashBoard/HRManager/AddEmployee/AvailablePackage";
 
 export const router = createBrowserRouter([
   {
@@ -114,6 +115,10 @@ export const router = createBrowserRouter([
       {
         path: "all-requests",
         element: <AllRequests></AllRequests>,
+      },
+      {
+        path: "available-package",
+        element: <AvailablePackage></AvailablePackage>,
       },
     ],
   },
