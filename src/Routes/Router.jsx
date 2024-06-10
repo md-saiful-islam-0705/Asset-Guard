@@ -72,49 +72,81 @@ export const router = createBrowserRouter([
       // HR Manager
       {
         path: "hr-home",
-        element: <HRRoute><HRHome></HRHome></HRRoute>,
+        element: (
+          <HRRoute>
+            <HRHome></HRHome>
+          </HRRoute>
+        ),
       },
       {
         path: "add-employee",
-        element: <HRRoute><AddEmployee></AddEmployee></HRRoute>,
+        element: (
+          <HRRoute>
+            <AddEmployee></AddEmployee>
+          </HRRoute>
+        ),
       },
       {
         path: "add-asset",
-        element: <HRRoute><AddAseet></AddAseet></HRRoute>,
+        element: (
+          <HRRoute>
+            <AddAseet></AddAseet>
+          </HRRoute>
+        ),
       },
       {
         path: "employee-list",
-        element: <HRRoute><MyEmployeeList></MyEmployeeList></HRRoute>,
+        element: (
+          <HRRoute>
+            <MyEmployeeList></MyEmployeeList>
+          </HRRoute>
+        ),
       },
       {
         path: "asset-list",
-        element: <HRRoute><AssetList></AssetList></HRRoute>,
+        element: (
+          <HRRoute>
+            <AssetList></AssetList>
+          </HRRoute>
+        ),
       },
       {
         path: "hr-profile",
-        element: <HRRoute><Profile></Profile></HRRoute>,
+        element: (
+          <HRRoute>
+            <Profile></Profile>
+          </HRRoute>
+        ),
       },
       {
         path: "all-requests",
-        element: <HRRoute><AllRequests></AllRequests></HRRoute>,
+        element: (
+          <HRRoute>
+            <AllRequests></AllRequests>
+          </HRRoute>
+        ),
       },
       {
         path: "available-package",
-        element: <HRRoute><AvailablePackage></AvailablePackage></HRRoute>,
+        element: (
+          <HRRoute>
+            <AvailablePackage></AvailablePackage>
+          </HRRoute>
+        ),
       },
       {
         path: "payment",
-        element: <HRRoute><Payment></Payment></HRRoute>,
+        element: (
+          <HRRoute>
+            <Payment></Payment>
+          </HRRoute>
+        ),
       },
 
       // Employee
       {
         path: "employee-home",
-        element: (
-          <PrivateRoute>
-            <EmployeeHome></EmployeeHome>
-          </PrivateRoute>
-        ),
+        element: <EmployeeHome></EmployeeHome>,
       },
       {
         path: "request-asset",

@@ -109,7 +109,7 @@ const Navbar = () => {
                       </li>
                     ) : (
                       <li>
-                        <Link to="/dashboard/hr-profile">Dashboard</Link>
+                        <Link to="/dashboard/employee-profile">Dashboard</Link>
                       </li>
                     )}
                     <li>
