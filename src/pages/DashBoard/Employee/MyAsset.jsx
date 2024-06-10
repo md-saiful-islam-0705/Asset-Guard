@@ -14,6 +14,7 @@ import { FaPrint } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../../providers/AuthProvider";
+import { Helmet } from "react-helmet-async";
 
 const MyAsset = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -132,6 +133,11 @@ const MyAsset = () => {
 
   return (
     <div className="">
+      <Helmet>
+            <title>
+                My Asset
+            </title>
+        </Helmet>
       {/* Filter and Search Section */}
       <div className="flex items-center justify-between gap-2">
         <div>

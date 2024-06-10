@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const Profile = () => {
   const { user, updateUserProfile } = useContext(AuthContext);
@@ -35,12 +36,17 @@ const Profile = () => {
 
   return (
     <div className="container mx-auto">
+      <Helmet>
+            <title>
+                Profile
+            </title>
+        </Helmet>
       <h1 className="text-3xl font-bold text-center mt-6 mb-3">Profile</h1>
 
       <div className="flex lg:w-2/3 mx-auto justify-center flex-col border-indigo-100 border-2 shadow rounded-xl p-5 gap-4">
         <div className="">
           <div className="my-2 ">
-            <img className="w-30 h-30 rounded-lg mx-auto" src={user?.photoURL} alt="" />
+            <img className="w-40 h-40  rounded-lg mx-auto" src={user?.photoURL} alt="" />
           </div>
           <div>
             <label className="block mb-2 font-semibold">Full Name:</label>

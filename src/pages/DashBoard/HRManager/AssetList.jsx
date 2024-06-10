@@ -18,6 +18,7 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import EditAssetModal from "./EditAssetModal";
+import { Helmet } from "react-helmet-async";
 
 const AssetList = () => {
   const [assets, setAssets] = useState([]);
@@ -148,6 +149,11 @@ const AssetList = () => {
 
   return (
     <div className="h-full">
+      <Helmet>
+            <title>
+                Asset List
+            </title>
+        </Helmet>
       <div>
         <Typography variant="h5" color="blue-gray">
           Asset List

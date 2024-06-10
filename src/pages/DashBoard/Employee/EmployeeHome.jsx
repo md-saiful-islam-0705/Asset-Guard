@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, CardBody, Typography } from "@material-tailwind/react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet-async";
 
 const EmployeeHome = () => {
   const axiosSecure = useAxiosSecure();
@@ -41,6 +42,11 @@ const EmployeeHome = () => {
 
   return (
     <div>
+      <Helmet>
+            <title>
+                HR Home
+            </title>
+        </Helmet>
       <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-4">
         <Card className="mt-4 h-[400px] w-full border border-blue-100 ">
           <CardBody className="overflow-y-auto ">

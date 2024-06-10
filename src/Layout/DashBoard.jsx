@@ -3,6 +3,7 @@ import { AuthContext } from "../providers/AuthProvider";
 import useHR from "../hooks/useHR";
 import HRDashboard from "../pages/DashBoard/HRDashBoard";
 import EmployeeDashboard from "../pages/DashBoard/EmployeeDashBoard";
+import { Helmet } from "react-helmet-async";
 
 const Dashboard = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -21,6 +22,11 @@ const Dashboard = () => {
 
   return (
     <div className="h-full ">
+        <Helmet>
+            <title>
+                Dashboard
+            </title>
+        </Helmet>
       {isHR ? (
         <HRDashboard user={user} logOut={logOut} hrData={hrData} />
       ) : (

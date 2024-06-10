@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { PieChart } from "react-minimal-pie-chart";
 import Calendar from 'react-calendar';
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 const HRHome = () => {
   const axiosSecure = useAxiosSecure();
@@ -82,6 +83,11 @@ const HRHome = () => {
 
   return (
     <div className=" grid lg:grid-cols-2 md:grid-cols-2 gap-4">
+      <Helmet>
+            <title>
+                HR Home
+            </title>
+        </Helmet>
       {/* Pending Requests Section */}
       <Card className="mt-4 h-[300px] w-full border border-blue-100">
         <CardBody>

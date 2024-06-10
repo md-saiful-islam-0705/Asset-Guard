@@ -6,10 +6,6 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
-const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
-
-
 const HRManagerJoinForm = () => {
   const axiosPublic = useAxiosPublic();
   const { register, handleSubmit, reset } = useForm();
@@ -18,17 +14,24 @@ const HRManagerJoinForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const { email, password, displayName, dateOfBirth, photoURL, role, companyName, companyLogo, selectedPackage } = data;
+      const {
+        email,
+        password,
+        displayName,
+        dateOfBirth,
+        photoURL,
+        role,
+        companyName,
+        companyLogo,
+        selectedPackage,
+      } = data;
 
-      
       const userCredential = await createUser(email, password);
       const user = userCredential.user;
       console.log(user);
 
-      
       await updateUserProfile(displayName, photoURL);
 
-      
       const userInfo = {
         displayName,
         email,
@@ -37,14 +40,12 @@ const HRManagerJoinForm = () => {
         photoURL,
         role,
         companyName,
-        companyLogo: companyLogo[0], 
+        companyLogo: companyLogo[0],
         selectedPackage,
       };
 
-      // Make API call to register HR Manager
-      const response = await axiosPublic.post('/hr-register', userInfo);
+      const response = await axiosPublic.post("/hr-register", userInfo);
 
-      // If registration successful, show success message and reset form
       if (response.status === 201) {
         Swal.fire({
           icon: "success",
@@ -53,11 +54,10 @@ const HRManagerJoinForm = () => {
           timer: 2000,
           showConfirmButton: false,
         });
-        reset(); 
-        navigate('/');
+        reset();
+        navigate("/");
       }
     } catch (error) {
-     
       Swal.fire({
         icon: "error",
         title: "Error",

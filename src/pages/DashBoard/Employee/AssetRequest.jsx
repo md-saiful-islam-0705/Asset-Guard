@@ -3,6 +3,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Button, Input, Typography } from "@material-tailwind/react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import AssetRequestModal from "./AssetRequestModal";
+import { Helmet } from "react-helmet-async";
 
 const RequestAsset = () => {
   const [assets, setAssets] = useState([]);
@@ -68,6 +69,11 @@ const RequestAsset = () => {
 
   return (
     <div className="p-5">
+      <Helmet>
+            <title>
+                Asset Request
+            </title>
+        </Helmet>
       <div>
         <Typography variant="h5" color="blue-gray">
           Request for an Asset

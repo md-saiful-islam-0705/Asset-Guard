@@ -3,6 +3,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { RiMessage3Fill } from "react-icons/ri";
+import { Helmet } from "react-helmet-async";
 
 const MyEmployeeList = () => {
   const axiosSecure = useAxiosSecure();
@@ -61,6 +62,11 @@ const MyEmployeeList = () => {
 
   return (
     <div className="">
+      <Helmet>
+            <title>
+                Employee List
+            </title>
+        </Helmet>
       <p className="text-center font-bold text-gray-500 my-6 text-2xl">
         My Employee List
       </p>

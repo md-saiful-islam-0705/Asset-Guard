@@ -12,6 +12,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const AllRequest = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -152,6 +153,11 @@ const AllRequest = () => {
 
   return (
     <div className=" w-full">
+      <Helmet>
+            <title>
+                All Requests
+            </title>
+        </Helmet>
       <div className=" my-4 flex lg:flex-row flex-col gap-4 justify-center ">
        
         <div className="flex gap-4 items-center justify-between">

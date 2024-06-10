@@ -20,11 +20,14 @@ import MyTeam from "../pages/DashBoard/Employee/MyTeam";
 import HRHome from "../pages/DashBoard/HRManager/HRHome";
 import AvailablePackage from "../pages/DashBoard/HRManager/AddEmployee/AvailablePackage";
 import Payment from "../pages/DashBoard/HRManager/AddEmployee/Payment/Payment";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import HRRoute from "./HRRoute";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",
@@ -61,10 +64,50 @@ export const router = createBrowserRouter([
     path: "dashboard",
     element: (
       <PrivateRoute>
-        <Dashboard></Dashboard>{" "}
+        <Dashboard></Dashboard>
       </PrivateRoute>
     ),
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
+      // HR Manager
+      {
+        path: "hr-home",
+        element: <HRRoute><HRHome></HRHome></HRRoute>,
+      },
+      {
+        path: "add-employee",
+        element: <HRRoute><AddEmployee></AddEmployee></HRRoute>,
+      },
+      {
+        path: "add-asset",
+        element: <HRRoute><AddAseet></AddAseet></HRRoute>,
+      },
+      {
+        path: "employee-list",
+        element: <HRRoute><MyEmployeeList></MyEmployeeList></HRRoute>,
+      },
+      {
+        path: "asset-list",
+        element: <HRRoute><AssetList></AssetList></HRRoute>,
+      },
+      {
+        path: "hr-profile",
+        element: <HRRoute><Profile></Profile></HRRoute>,
+      },
+      {
+        path: "all-requests",
+        element: <HRRoute><AllRequests></AllRequests></HRRoute>,
+      },
+      {
+        path: "available-package",
+        element: <HRRoute><AvailablePackage></AvailablePackage></HRRoute>,
+      },
+      {
+        path: "payment",
+        element: <HRRoute><Payment></Payment></HRRoute>,
+      },
+
+      // Employee
       {
         path: "employee-home",
         element: (
@@ -72,26 +115,6 @@ export const router = createBrowserRouter([
             <EmployeeHome></EmployeeHome>
           </PrivateRoute>
         ),
-      },
-      {
-        path: "hr-home",
-        element: <HRHome></HRHome>,
-      },
-      {
-        path: "add-employee",
-        element: <AddEmployee></AddEmployee>,
-      },
-      {
-        path: "add-asset",
-        element: <AddAseet></AddAseet>,
-      },
-      {
-        path: "employee-list",
-        element: <MyEmployeeList></MyEmployeeList>,
-      },
-      {
-        path: "asset-list",
-        element: <AssetList></AssetList>,
       },
       {
         path: "request-asset",
@@ -105,25 +128,10 @@ export const router = createBrowserRouter([
         path: "employee-profile",
         element: <Profile></Profile>,
       },
-      {
-        path: "hr-profile",
-        element: <Profile></Profile>,
-      },
+
       {
         path: "my-team",
         element: <MyTeam></MyTeam>,
-      },
-      {
-        path: "all-requests",
-        element: <AllRequests></AllRequests>,
-      },
-      {
-        path: "available-package",
-        element: <AvailablePackage></AvailablePackage>,
-      },
-      {
-        path: "payment",
-        element: <Payment></Payment>,
       },
     ],
   },

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { Helmet } from "react-helmet-async";
 
 const MyTeam = () => {
   const axiosSecure = useAxiosSecure();
@@ -18,6 +19,11 @@ const MyTeam = () => {
 
   return (
     <div className="">
+      <Helmet>
+            <title>
+               My Team
+            </title>
+        </Helmet>
       <p className="text-center font-bold text-gray-500 my-6 text-2xl">
         My Teams
       </p>
