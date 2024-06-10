@@ -105,11 +105,11 @@ const Navbar = () => {
                   <ul className="absolute right-0 p-2 top-12 mt-2 w-48 bg-white border-2 shadow-lg rounded-md z-10">
                     {isHR ? (
                       <li>
-                        <Link to="/dashboard/hr-home">Dashboard</Link>
+                        <Link to="/dashboard/hr-profile">Dashboard</Link>
                       </li>
                     ) : (
                       <li>
-                        <Link to="/dashboard/employee-home">Dashboard</Link>
+                        <Link to="/dashboard/hr-profile">Dashboard</Link>
                       </li>
                     )}
                     <li>

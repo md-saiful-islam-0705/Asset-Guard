@@ -145,7 +145,7 @@ const HRHome = () => {
         </CardBody>
       </Card>
       {/* Pie Chart Section */}
-      <Card className="mt-4 h-[300px] w-full border border-gray-200">
+      <Card className="mt-4 h-[300px] w-full border border-indigo-100">
         <CardBody className="flex flex-col items-center">
           <Typography color="blue-gray" className="font-bold mb-3">
             <span className="text-blue-500">Returnable</span> /{" "}
@@ -209,7 +209,7 @@ const HRHome = () => {
           </div>
         </CardBody>
       </Card>
-      <Card className="mt-4 h-[300px] w-full border border-orange-200">
+      <Card className="mt-4 h-[300px] w-full border border-orange-100">
         <CardBody className="overflow-y-auto">
           <Typography color="blue-gray" className="font-bold text-orange-500 mb-3">
             Calendar

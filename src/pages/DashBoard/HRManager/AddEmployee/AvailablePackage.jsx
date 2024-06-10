@@ -1,18 +1,17 @@
 import { Card, CardBody, Typography, Button } from "@material-tailwind/react";
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AvailablePackage = () => {
-  const handlePurchase = async (members, price) => {
-    const response = await axios.post('/packages/purchase', { members, price });
-    if (response.data.success) {
-      window.location.href = '/';
-    }
+  const navigate = useNavigate();
+
+  const handlePurchase = (members, price) => {
+    navigate('/dashboard/payment', { state: { selectedPackage: { members, price } } });
   };
 
   return (
-    <Card className="mt-4 w-full border border-yellow-100">
+    <Card className="mt-4 w-full border border-blue-100">
       <CardBody>
-        <Typography color="blue-gray" className="font-bold text-yellow-500 mb-3">
+        <Typography color="blue-gray" className="font-bold text-blue-500 mb-3">
           Available Packages
         </Typography>
         <div className="flex flex-col space-y-4">

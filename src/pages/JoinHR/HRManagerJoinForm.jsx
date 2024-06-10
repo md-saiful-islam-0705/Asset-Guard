@@ -6,6 +6,10 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+
+
 const HRManagerJoinForm = () => {
   const axiosPublic = useAxiosPublic();
   const { register, handleSubmit, reset } = useForm();
@@ -16,15 +20,15 @@ const HRManagerJoinForm = () => {
     try {
       const { email, password, displayName, dateOfBirth, photoURL, role, companyName, companyLogo, selectedPackage } = data;
 
-      // Create user in Firebase authentication
+      
       const userCredential = await createUser(email, password);
       const user = userCredential.user;
       console.log(user);
 
-      // Update user profile
+      
       await updateUserProfile(displayName, photoURL);
 
-      // Construct userInfo object for API call
+      
       const userInfo = {
         displayName,
         email,
@@ -49,11 +53,11 @@ const HRManagerJoinForm = () => {
           timer: 2000,
           showConfirmButton: false,
         });
-        reset(); // Reset form
+        reset(); 
         navigate('/');
       }
     } catch (error) {
-      // Handle registration errors
+     
       Swal.fire({
         icon: "error",
         title: "Error",
