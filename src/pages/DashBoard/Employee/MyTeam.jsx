@@ -14,16 +14,20 @@ const MyTeam = () => {
   });
 
   if (isLoading) {
-    return <div>Loading team members...</div>;
+    return (
+      <div>
+        <span className="loading loading-spinner text-success"></span>
+        <span className="loading loading-spinner text-warning"></span>
+        <span className="loading loading-spinner text-error"></span>
+      </div>
+    );
   }
 
   return (
     <div className="">
       <Helmet>
-            <title>
-               My Team
-            </title>
-        </Helmet>
+        <title>My Team</title>
+      </Helmet>
       <p className="text-center font-bold text-gray-500 my-6 text-2xl">
         My Teams
       </p>

@@ -8,7 +8,6 @@ import JoinEmployee from "../pages/JoinEmployee/JoinEmployee";
 import JoinHRManager from "../pages/JoinHR/JoinHRManager";
 import EmployeeHome from "../pages/DashBoard/Employee/EmployeeHome";
 import Dashboard from "../Layout/DashBoard";
-import PrivateRoute from "../Routes/PrivateRoute";
 import AddEmployee from "../pages/DashBoard/HRManager/AddEmployee/AddEmployee";
 import AddAseet from "../pages/DashBoard/HRManager/AddAseet";
 import MyEmployeeList from "../pages/DashBoard/HRManager/MyEmployeeList";
@@ -44,11 +43,7 @@ export const router = createBrowserRouter([
 
       {
         path: "profile",
-        element: (
-          <PrivateRoute>
-            <Profile></Profile>
-          </PrivateRoute>
-        ),
+        element: <Profile></Profile>,
       },
       {
         path: "login",
@@ -62,11 +57,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: (
-      <PrivateRoute>
-        <Dashboard></Dashboard>
-      </PrivateRoute>
-    ),
+    element: <Dashboard></Dashboard>,
     errorElement: <ErrorPage></ErrorPage>,
     children: [
       // HR Manager

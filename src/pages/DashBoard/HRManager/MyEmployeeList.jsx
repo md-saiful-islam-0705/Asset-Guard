@@ -57,16 +57,20 @@ const MyEmployeeList = () => {
   };
 
   if (isLoading) {
-    return <div>Loading team members...</div>;
+    return (
+      <div>
+        <span className="loading loading-spinner text-primary"></span>
+        <span className="loading loading-spinner text-secondary"></span>
+        <span className="loading loading-spinner text-accent"></span>
+      </div>
+    );
   }
 
   return (
     <div className="">
       <Helmet>
-            <title>
-                Employee List
-            </title>
-        </Helmet>
+        <title>Employee List</title>
+      </Helmet>
       <p className="text-center font-bold text-gray-500 my-6 text-2xl">
         My Employee List
       </p>
