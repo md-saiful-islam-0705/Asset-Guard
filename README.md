@@ -78,4 +78,15 @@
     - **React PDF:** For generating PDF documents for asset details.
     - **Axios:** For making HTTP requests.
     - **React Router:** For handling routing within the application.
+   
+   ## Instructions to Run Locally
+
+### Clone the Repository
+```bash
+git clone [https://github.com/your-username/your-repository.git](https://github.com/md-saiful-islam-0705/Asset-Guard.git)
+cd Asset-Guard
+
+npm install
+npm run dev
+
 
