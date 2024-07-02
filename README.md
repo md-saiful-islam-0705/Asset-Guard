@@ -1,4 +1,4 @@
-# Asset Management System (AMS) by Asset Guard Company
+# Asset Management System (AMS) by Asset Guard 
 
 ## Live Site URL:
 [Asset Management System](https://asset-guard-2024.web.app)
