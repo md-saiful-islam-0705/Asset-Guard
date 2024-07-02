@@ -83,7 +83,7 @@
 
 ### Clone the Repository
 ```bash
-git clone [https://github.com/your-username/your-repository.git](https://github.com/md-saiful-islam-0705/Asset-Guard.git)
+git clone https://github.com/md-saiful-islam-0705/Asset-Guard.git
 cd Asset-Guard
 
 npm install
